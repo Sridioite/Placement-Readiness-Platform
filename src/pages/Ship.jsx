@@ -121,7 +121,7 @@ export default function Ship() {
                 All Requirements Met
               </p>
               <p className="text-sm text-gray-600">
-                {status.totalSteps} steps • 10 tests • 3 proof links
+                {status.totalSteps} steps • 10 tests • 2 proof links
               </p>
             </div>
           </div>

@@ -28,14 +28,12 @@ export function getSubmission() {
   try {
     const data = localStorage.getItem(SUBMISSION_KEY)
     return data ? JSON.parse(data) : {
-      lovableLink: '',
       githubLink: '',
       deployedLink: ''
     }
   } catch (error) {
     console.error('Error reading submission:', error)
     return {
-      lovableLink: '',
       githubLink: '',
       deployedLink: ''
     }
@@ -88,7 +86,6 @@ export function getShippedStatus() {
   
   const submission = getSubmission()
   const allLinksProvided = 
-    validateURL(submission.lovableLink) &&
     validateURL(submission.githubLink) &&
     validateURL(submission.deployedLink)
   
@@ -106,7 +103,6 @@ export function generateSubmissionText(submission) {
   return `------------------------------------------
 Placement Readiness Platform — Final Submission
 
-Lovable Project: ${submission.lovableLink || '[Not provided]'}
 GitHub Repository: ${submission.githubLink || '[Not provided]'}
 Live Deployment: ${submission.deployedLink || '[Not provided]'}
 

@@ -13,7 +13,7 @@ import {
 } from '../utils/proofSystem'
 
 export default function Proof() {
-  const [submission, setSubmission] = useState({ lovableLink: '', githubLink: '', deployedLink: '' })
+  const [submission, setSubmission] = useState({ githubLink: '', deployedLink: '' })
   const [steps, setSteps] = useState({})
   const [status, setStatus] = useState({})
   const [copied, setCopied] = useState(false)
@@ -185,28 +185,6 @@ export default function Proof() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {/* Lovable Link */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Lovable Project Link <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="url"
-                value={submission.lovableLink}
-                onChange={(e) => handleLinkChange('lovableLink', e.target.value)}
-                onBlur={() => handleLinkBlur('lovableLink')}
-                placeholder="https://lovable.dev/projects/..."
-                className={`w-full px-4 py-2 border-2 rounded-lg outline-none transition-all ${
-                  errors.lovableLink
-                    ? 'border-red-300 bg-red-50'
-                    : 'border-gray-300 focus:border-primary'
-                }`}
-              />
-              {errors.lovableLink && (
-                <p className="text-sm text-red-600 mt-1">Please enter a valid URL</p>
-              )}
-            </div>
-
             {/* GitHub Link */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
