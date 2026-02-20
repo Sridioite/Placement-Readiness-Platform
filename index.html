@@ -1,101 +1,12 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KodNest Premium Build System</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="design-system.css">
-</head>
-<body>
-  
-  <div class="page-container">
-    
-    <!-- TOP BAR -->
-    <header class="top-bar">
-      <div class="top-bar__project">Project Name</div>
-      <div class="top-bar__progress">Step 1 / 5</div>
-      <div class="top-bar__status">Not Started</div>
-    </header>
-
-    <!-- CONTEXT HEADER -->
-    <section class="context-header">
-      <h1 class="context-header__title">Define Your Product Vision</h1>
-      <p class="context-header__subtitle">Describe what you're building and who it's for. Be specific about the problem you're solving.</p>
-    </section>
-
-    <!-- MAIN WORKSPACE -->
-    <main class="workspace">
-      
-      <!-- PRIMARY WORKSPACE (70%) -->
-      <div class="workspace__primary">
-        
-        <div class="card">
-          <h3 class="card__title">Product Description</h3>
-          <textarea class="textarea" placeholder="Describe your product..."></textarea>
-        </div>
-
-        <div class="card">
-          <h3 class="card__title">Target Audience</h3>
-          <input type="text" class="input" placeholder="Who is this for?">
-        </div>
-
-        <div class="card">
-          <h3 class="card__title">Core Problem</h3>
-          <textarea class="textarea" placeholder="What problem does this solve?"></textarea>
-        </div>
-
-      </div>
-
-      <!-- SECONDARY PANEL (30%) -->
-      <aside class="workspace__secondary">
-        
-        <div class="step-explanation">
-          <p class="step-explanation__text">Start by clearly defining what you're building. This helps ensure every decision aligns with your product vision.</p>
-        </div>
-
-        <div class="prompt-box">
-          Build a landing page for [product name] that helps [target audience] solve [problem]. Include hero section, features, and pricing.
-        </div>
-
-        <div class="action-buttons">
-          <button class="btn btn-primary">Copy Prompt</button>
-          <button class="btn btn-secondary">Build in Lovable</button>
-          <button class="btn btn-success">It Worked</button>
-          <button class="btn btn-warning">Report Error</button>
-          <button class="btn btn-secondary">Add Screenshot</button>
-        </div>
-
-      </aside>
-
-    </main>
-
-    <!-- PROOF FOOTER -->
-    <footer class="proof-footer">
-      <div class="proof-footer__title">Proof of Progress</div>
-      <div class="proof-checklist">
-        <label class="proof-item">
-          <input type="checkbox" class="proof-item__checkbox">
-          <span>UI Built</span>
-        </label>
-        <label class="proof-item">
-          <input type="checkbox" class="proof-item__checkbox">
-          <span>Logic Working</span>
-        </label>
-        <label class="proof-item">
-          <input type="checkbox" class="proof-item__checkbox">
-          <span>Test Passed</span>
-        </label>
-        <label class="proof-item">
-          <input type="checkbox" class="proof-item__checkbox">
-          <span>Deployed</span>
-        </label>
-      </div>
-    </footer>
-
-  </div>
-
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Placement Readiness Platform</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
