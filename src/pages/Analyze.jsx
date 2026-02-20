@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Sparkles, RotateCcw } from 'lucide-react'
 import Card, { CardHeader, CardTitle, CardContent } from '../components/Card'
 import { extractSkills, generateChecklist, generate7DayPlan, generateQuestions, calculateReadinessScore } from '../utils/skillExtractor'
+import { getCompanyIntel, generateRoundMapping } from '../utils/companyIntel'
 import { saveAnalysis } from '../utils/historyStorage'
 
 export default function Analyze() {
@@ -44,6 +45,10 @@ export default function Analyze() {
         formData.role,
         formData.jdText
       )
+      
+      // Generate company intel and round mapping
+      const companyIntel = getCompanyIntel(formData.company, extractedSkills)
+      const roundMapping = generateRoundMapping(companyIntel, extractedSkills)
 
       const analysisData = {
         company: formData.company,
@@ -53,7 +58,9 @@ export default function Analyze() {
         checklist,
         plan,
         questions,
-        readinessScore
+        readinessScore,
+        companyIntel,
+        roundMapping
       }
 
       const savedEntry = saveAnalysis(analysisData)
