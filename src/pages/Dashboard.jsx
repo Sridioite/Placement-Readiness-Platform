@@ -1,10 +1,12 @@
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts'
-import { ArrowRight, Calendar } from 'lucide-react'
+import { ArrowRight, Calendar, Sparkles } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import Card, { CardHeader, CardTitle, CardContent } from '../components/Card'
 import CircularProgress from '../components/CircularProgress'
 import ProgressBar from '../components/ProgressBar'
 
 export default function Dashboard() {
+  const navigate = useNavigate()
   const skillData = [
     { subject: 'DSA', score: 75, fullMark: 100 },
     { subject: 'System Design', score: 60, fullMark: 100 },
@@ -27,6 +29,27 @@ export default function Dashboard() {
       <h2 className="text-3xl font-bold text-gray-900 mb-6">Dashboard</h2>
       
       <div className="grid lg:grid-cols-2 gap-6">
+        {/* Quick Action - Analyze JD */}
+        <Card className="lg:col-span-2 bg-gradient-to-r from-indigo-50 to-purple-50 border-primary">
+          <CardContent className="flex items-center justify-between p-6">
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                Ready to analyze a new job description?
+              </h3>
+              <p className="text-gray-600">
+                Get personalized preparation plans and readiness scores
+              </p>
+            </div>
+            <button
+              onClick={() => navigate('/app/analyze')}
+              className="bg-primary hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-colors"
+            >
+              <Sparkles className="w-5 h-5" />
+              Analyze JD
+            </button>
+          </CardContent>
+        </Card>
+
         {/* Overall Readiness */}
         <Card>
           <CardHeader>
