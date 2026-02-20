@@ -7,12 +7,25 @@ import { getHistory, deleteAnalysis } from '../utils/historyStorage'
 export default function History() {
   const navigate = useNavigate()
   const [history, setHistory] = useState([])
+  const [hasCorruptedEntries, setHasCorruptedEntries] = useState(false)
 
   useEffect(() => {
     loadHistory()
   }, [])
 
   const loadHistory = () => {
+    try {
+      const rawData = localStorage.getItem('placement_analysis_history')
+      if (rawData) {
+        const parsed = JSON.parse(rawData)
+        const validCount = getHistory().length
+        if (Array.isArray(parsed) && parsed.length > validCount) {
+          setHasCorruptedEntries(true)
+        }
+      }
+    } catch (error) {
+      console.error('Error checking history:', error)
+    }
     setHistory(getHistory())
   }
 
@@ -57,6 +70,14 @@ export default function History() {
   return (
     <div className="max-w-6xl mx-auto">
       <h2 className="text-3xl font-bold text-gray-900 mb-6">Analysis History</h2>
+
+      {hasCorruptedEntries && (
+        <div className="mb-4 p-4 bg-red-50 border-2 border-red-200 rounded-lg">
+          <p className="text-sm text-red-800">
+            ⚠️ One or more saved entries couldn't be loaded due to data corruption. They have been skipped. Create a new analysis to continue.
+          </p>
+        </div>
+      )}
 
       {history.length === 0 ? (
         <Card>

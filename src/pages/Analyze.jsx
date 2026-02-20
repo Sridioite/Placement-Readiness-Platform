@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Sparkles, RotateCcw } from 'lucide-react'
+import { Sparkles, RotateCcw, AlertTriangle } from 'lucide-react'
 import Card, { CardHeader, CardTitle, CardContent } from '../components/Card'
 import { extractSkills, generateChecklist, generate7DayPlan, generateQuestions, calculateReadinessScore } from '../utils/skillExtractor'
 import { getCompanyIntel, generateRoundMapping } from '../utils/companyIntel'
 import { saveAnalysis } from '../utils/historyStorage'
+import { validateJD } from '../utils/validation'
+import { createAnalysisEntry } from '../utils/analysisSchema'
 
 export default function Analyze() {
   const navigate = useNavigate()
@@ -16,6 +18,7 @@ export default function Analyze() {
   })
   const [isAnalyzing, setIsAnalyzing] = useState(false)
   const [isEditMode, setIsEditMode] = useState(false)
+  const [validationWarning, setValidationWarning] = useState('')
 
   useEffect(() => {
     // Check if we're coming from history with pre-filled data
@@ -31,6 +34,20 @@ export default function Analyze() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    
+    // Validate JD
+    const validation = validateJD(formData.jdText)
+    if (!validation.isValid) {
+      return // Form validation will show error
+    }
+    
+    // Show warning if JD is short but allow submission
+    if (validation.warnings.length > 0) {
+      setValidationWarning(validation.warnings[0])
+    } else {
+      setValidationWarning('')
+    }
+    
     setIsAnalyzing(true)
 
     // Simulate processing time for better UX
@@ -62,9 +79,13 @@ export default function Analyze() {
         companyIntel,
         roundMapping
       }
+      
+      // Create standardized entry
+      const standardizedEntry = createAnalysisEntry(analysisData)
 
-      const savedEntry = saveAnalysis(analysisData)
+      const savedEntry = saveAnalysis(standardizedEntry)
       setIsAnalyzing(false)
+      setValidationWarning('')
       navigate(`/app/results?id=${savedEntry.id}`)
     }, 1500)
   }
@@ -72,6 +93,7 @@ export default function Analyze() {
   const handleReset = () => {
     setFormData({ company: '', role: '', jdText: '' })
     setIsEditMode(false)
+    setValidationWarning('')
   }
 
   return (
@@ -96,6 +118,16 @@ export default function Analyze() {
           <p className="text-sm text-indigo-800">
             💡 <strong>Editing mode:</strong> Saved analyses let you revisit and iterate without re-entering data. Make changes and re-analyze to see updated results.
           </p>
+        </div>
+      )}
+
+      {validationWarning && (
+        <div className="mb-4 p-4 bg-amber-50 border-2 border-amber-300 rounded-lg flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-sm font-semibold text-amber-900 mb-1">Short Job Description</p>
+            <p className="text-sm text-amber-800">{validationWarning}</p>
+          </div>
         </div>
       )}
 

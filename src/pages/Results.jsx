@@ -82,12 +82,13 @@ export default function Results() {
     const newScore = Math.max(0, Math.min(100, baseScore + adjustment))
     setLiveScore(newScore)
     
-    // Save to history
+    // Save to history with updatedAt timestamp
     const id = searchParams.get('id')
     if (id) {
       updateAnalysisInHistory(id, {
         skillConfidenceMap: newMap,
-        readinessScore: newScore
+        readinessScore: newScore,
+        updatedAt: new Date().toISOString()
       })
     }
   }

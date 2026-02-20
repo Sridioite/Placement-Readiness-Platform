@@ -1,3 +1,5 @@
+import { validateAnalysisEntry } from './analysisSchema'
+
 const HISTORY_KEY = 'placement_analysis_history'
 
 export function saveAnalysis(analysisData) {
@@ -5,6 +7,7 @@ export function saveAnalysis(analysisData) {
   const entry = {
     id: Date.now().toString(),
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     ...analysisData
   }
   history.unshift(entry)
@@ -15,7 +18,21 @@ export function saveAnalysis(analysisData) {
 export function getHistory() {
   try {
     const data = localStorage.getItem(HISTORY_KEY)
-    return data ? JSON.parse(data) : []
+    if (!data) return []
+    
+    const parsed = JSON.parse(data)
+    if (!Array.isArray(parsed)) return []
+    
+    // Filter out corrupted entries
+    const valid = parsed.filter(entry => {
+      const isValid = validateAnalysisEntry(entry)
+      if (!isValid) {
+        console.warn('Skipping corrupted entry:', entry?.id)
+      }
+      return isValid
+    })
+    
+    return valid
   } catch (error) {
     console.error('Error reading history:', error)
     return []
