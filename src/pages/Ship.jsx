@@ -2,19 +2,17 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Rocket, Lock, CheckCircle2, AlertTriangle } from 'lucide-react'
 import Card, { CardHeader, CardTitle, CardContent } from '../components/Card'
-import { isShipUnlocked, getChecklistProgress } from '../utils/testChecklist'
+import { getShippedStatus } from '../utils/proofSystem'
 
 export default function Ship() {
   const navigate = useNavigate()
-  const [unlocked, setUnlocked] = useState(false)
-  const [progress, setProgress] = useState({ passed: 0, total: 10 })
+  const [status, setStatus] = useState({})
 
   useEffect(() => {
-    setUnlocked(isShipUnlocked())
-    setProgress(getChecklistProgress())
+    setStatus(getShippedStatus())
   }, [])
 
-  if (!unlocked) {
+  if (!status.isShipped) {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="mb-6">
@@ -38,21 +36,29 @@ export default function Ship() {
             <div className="inline-flex items-center gap-3 px-6 py-3 bg-white rounded-lg border-2 border-red-300 mb-6">
               <AlertTriangle className="w-6 h-6 text-orange-600" />
               <div className="text-left">
-                <p className="font-semibold text-gray-900">
-                  Tests Passed: {progress.passed} / {progress.total}
-                </p>
+                <p className="font-semibold text-gray-900">Requirements:</p>
                 <p className="text-sm text-gray-600">
-                  {progress.total - progress.passed} tests remaining
+                  {!status.stepsComplete && `• Complete all ${status.totalSteps} steps`}
+                  {!status.checklistComplete && ' • Pass all 10 tests'}
+                  {!status.linksProvided && ' • Provide proof links'}
                 </p>
               </div>
             </div>
 
-            <button
-              onClick={() => navigate('/prp/07-test')}
-              className="bg-primary hover:bg-indigo-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Go to Test Checklist
-            </button>
+            <div className="flex gap-3">
+              <button
+                onClick={() => navigate('/prp/proof')}
+                className="flex-1 bg-primary hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Go to Proof Page
+              </button>
+              <button
+                onClick={() => navigate('/prp/07-test')}
+                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Go to Test Checklist
+              </button>
+            </div>
           </CardContent>
         </Card>
 
@@ -112,10 +118,10 @@ export default function Ship() {
             <CheckCircle2 className="w-6 h-6 text-green-600" />
             <div className="text-left">
               <p className="font-semibold text-gray-900">
-                All Tests Passed: {progress.passed} / {progress.total}
+                All Requirements Met
               </p>
               <p className="text-sm text-gray-600">
-                Platform verified and ready
+                {status.totalSteps} steps • 10 tests • 3 proof links
               </p>
             </div>
           </div>
